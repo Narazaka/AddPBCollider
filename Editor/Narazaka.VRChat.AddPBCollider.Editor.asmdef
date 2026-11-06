@@ -1,0 +1,21 @@
+{
+    "name": "Narazaka.VRChat.AddPBCollider.Editor",
+    "rootNamespace": "",
+    "references": [
+        "VRC.SDKBase",
+        "VRC.SDK3A",
+        "nadena.dev.ndmf",
+        "Narazaka.VRChat.AddPBCollider"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

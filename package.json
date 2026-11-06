@@ -1,6 +1,6 @@
 {
   "name": "net.narazaka.vrchat.add-pb-collider",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "displayName": "Add PB Collider",
   "description": "Add PB Collider",
   "author": {
@@ -13,6 +13,6 @@
   "unity": "2022.3",
   "vpmDependencies": {
     "com.vrchat.avatars": ">=3.7.5",
-    "com.vrchat.worlds": ">=3.7.5"
+    "nadena.dev.ndmf": ">=1.14.0"
   }
 }

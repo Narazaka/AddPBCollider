@@ -1,6 +1,6 @@
 # Add PB Collider
 
-desc
+PBのコライダー参照を外から後付けするやつ
 
 ## Install
 
@@ -16,7 +16,7 @@ https://github.com/Narazaka/AddPBCollider/releases/latest から `net.narazaka.v
 
 ## Usage
 
-TODO
+Add PB Colliderコンポーネント付けてよしなに
 
 ## License
 
