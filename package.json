@@ -1,0 +1,18 @@
+{
+  "name": "net.narazaka.vrchat.add-pb-collider",
+  "version": "1.0.0",
+  "displayName": "Add PB Collider",
+  "description": "Add PB Collider",
+  "author": {
+    "name": "Narazaka",
+    "url": "https://github.com/Narazaka"
+  },
+  "license": "Zlib",
+  "type": "tool",
+  "url" : "https://github.com/Narazaka/AddPBCollider.git",
+  "unity": "2022.3",
+  "vpmDependencies": {
+    "com.vrchat.avatars": ">=3.7.5",
+    "com.vrchat.worlds": ">=3.7.5"
+  }
+}
