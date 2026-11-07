@@ -30,6 +30,7 @@ namespace Narazaka.VRChat.AddPBCollider.Editor
                 {
                     Undo.RecordObject(c, "Change targetPb");
                     c.targetPb = pb as VRCPhysBone;
+                    PrefabUtility.RecordPrefabInstancePropertyModifications(c);
                 }
             }
 

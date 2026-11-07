@@ -14,7 +14,7 @@ namespace Narazaka.VRChat.AddPBCollider
             get
             {
                 var avatarRoot = GetAvatarRoot();
-                var animator = avatarRoot.GetComponent<Animator>();
+                if (avatarRoot == null) return null;
                 var boneTransform = GetBoneTransform(avatarRoot);
                 if (boneTransform == null) return null;
                 var t = GetSubTransform(boneTransform);
@@ -29,22 +29,26 @@ namespace Narazaka.VRChat.AddPBCollider
                 {
                     boneReference = HumanBodyBones.LastBone;
                     subPath = null;
-                    pbIndex = 0;
+                    pbIndex = -1;
                     return;
                 }
 
                 var t = value.transform;
                 var avatarRoot = GetAvatarRoot();
+                if (avatarRoot == null) return;
                 var animator = avatarRoot.GetComponent<Animator>();
                 var bones = new Dictionary<Transform, HumanBodyBones>();
 
-                foreach (var bone in Enum.GetValues(typeof(HumanBodyBones)))
+                if (animator != null && animator.isHuman)
                 {
-                    if ((HumanBodyBones)bone == HumanBodyBones.LastBone) continue;
-                    var boneTransform = animator.GetBoneTransform((HumanBodyBones)bone);
-                    if (boneTransform != null)
+                    foreach (var bone in Enum.GetValues(typeof(HumanBodyBones)))
                     {
-                        bones[boneTransform] = (HumanBodyBones)bone;
+                        if ((HumanBodyBones)bone == HumanBodyBones.LastBone) continue;
+                        var boneTransform = animator.GetBoneTransform((HumanBodyBones)bone);
+                        if (boneTransform != null)
+                        {
+                            bones[boneTransform] = (HumanBodyBones)bone;
+                        }
                     }
                 }
 
@@ -59,6 +63,12 @@ namespace Narazaka.VRChat.AddPBCollider
                         return;
                     }
                     parent = parent.parent;
+                }
+                if (parent == avatarRoot)
+                {
+                    boneReference = HumanBodyBones.LastBone;
+                    subPath = RuntimeUtil.RelativePath(avatarRoot, t);
+                    pbIndex = Array.IndexOf(t.GetComponents<VRCPhysBone>(), value);
                 }
             }
         }
@@ -83,7 +93,7 @@ namespace Narazaka.VRChat.AddPBCollider
         public string subPath;
         Transform GetSubTransform(Transform root) => subPath != null && subPath.Length > 0 ? root.Find(subPath) : root;
 
-        public int pbIndex;
+        public int pbIndex = -1;
 
         public VRCPhysBoneCollider[] colliders;
 
