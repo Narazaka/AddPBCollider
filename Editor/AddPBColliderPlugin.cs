@@ -10,6 +10,8 @@ namespace Narazaka.VRChat.AddPBCollider.Editor
 {
     public class AddPBColliderPlugin : Plugin<AddPBColliderPlugin>
     {
+        public override string DisplayName => nameof(AddPBCollider);
+
         protected override void Configure()
         {
             InPhase(BuildPhase.Transforming).AfterPlugin("wataameya.marshmallow_PB.ndmf").Run("AddPBColliderPlugin", Pass);
@@ -51,21 +53,45 @@ namespace Narazaka.VRChat.AddPBCollider.Editor
 
         static readonly Localizer PassthroughLocalizer = new Localizer("en-US", () => new List<(string, System.Func<string, string>)>
         {
-            ("en-US", key => "{0}"),
+            ("en-US", key =>
+            {
+                switch (key)
+                {
+                    case "pbNotFound": return "PhysBone not found ?";
+                    case "pbNotFound:description": return "{1} th PhysBone of [{0}]";
+                    default: return key;
+                }
+            }
+            ),
+            ("ja-JP", key =>
+            {
+                switch (key)
+                {
+                    case "pbNotFound": return "PhysBone が見付かりません？";
+                    case "pbNotFound:description": return "[{0}] の {1} 番目の PhysBone";
+                    default: return key;
+                }
+            }
+            ),
         });
 
         public class PhysboneNotFoundError : SimpleError
         {
-            string message;
-            public PhysboneNotFoundError(AddPBCollider c) => this.message = $"PhysBone not found at path: [{c.boneReference} / {c.subPath}]";
+            HumanBodyBones boneReference;
+            string subPath;
+            int pbIndex;
+            public PhysboneNotFoundError(AddPBCollider c)
+            {
+                boneReference = c.boneReference;
+                subPath = c.subPath;
+                pbIndex = c.pbIndex;
+            }
             public override Localizer Localizer => PassthroughLocalizer;
 
-            public override string TitleKey => "title";
-            public override string[] TitleSubst => new string[] { "Error" };
-            public override string DetailsKey => "message";
-            public override string[] DetailsSubst => new string[] { message };
+            public override string TitleKey => "pbNotFound";
+            public override string[] DetailsSubst => new string[] { boneReference == HumanBodyBones.LastBone ? $"<AvatarRoot>/{subPath}" : $"<{boneReference}>/{subPath}", pbIndex.ToString() };
 
-            public override ErrorSeverity Severity => ErrorSeverity.NonFatal;
+            public override ErrorSeverity Severity => ErrorSeverity.Information;
         }
     }
 }
